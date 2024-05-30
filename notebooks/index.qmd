@@ -1,0 +1,17 @@
+---
+title: Wikiapp docs
+---
+
+Welcome to the documentation for Wikiapp! We are so glad you are here.
+
+This library will let you get random wikipedia page excerpts, in any language.
+
+Yeah we know it doesnot do much! But it is a start.
+
+```
+> wikiapp -l es
+São Pedro de Penaferrim
+São Pedro de Penaferrim era una freguesia portuguesa del municipio de
+Sintra, distrito de Lisboa.
+
+```

@@ -11,6 +11,7 @@ wikiapp = "wikiapp.console:main"
 
 [project.optional-dependencies]
 test = ["coverage[toml]"]
+docs = ["nbdev"]
 
 [build-system]
 requires = ["setuptools"]
@@ -29,6 +30,7 @@ program = "python wikiapp/console.py"
 [tool.pixi.dependencies]
 click = ">=8.1.7,<8.2"
 requests = ">=2.31.0,<2.32"
+pydantic = ">=2.7.2,<2.8"
 
 [tool.pixi.feature.test.dependencies]
 pytest = ">=7.2.0,<8.3"
@@ -36,7 +38,8 @@ pytest-cov = ">=5.0.0,<5.1"
 pytest-mock = ">=3.14.0,<3.15"
 
 [tool.pixi.feature.test.tasks]
-test = "pytest"
+test = "pytest --cov -m 'not e2e'"
+test_e2e = "pytest --cov -m 'e2e'"
 
 [tool.pixi.feature.py310.dependencies]
 python = "3.10.*"
@@ -48,7 +51,6 @@ requests = ">=2.23.0,<2.33"
 click = ">=8.1.3,<8.2"
 python = "3.11.*"
 
-# pixi add ruff --feature lintformat
 [tool.pixi.feature.lintformat.dependencies]
 ruff = ">=0.4.5,<0.5"
 pre-commit = ">=3.7.1,<3.8"
@@ -61,7 +63,11 @@ format = "ruff format"
 mypy = ">=0.812,<1.11"
 
 [tool.pixi.feature.typing.tasks]
-typing = "mypy ."
+typing = "mypy."
+
+[tool.pixi.feature.docs.dependencies]
+jupyterlab = ">=1.0.10,<4.3"
+quarto = ">=1.4.550,<1.5"
 
 [tool.pixi.environments]
 default = { solve-group = "default" } # includes ['default']
@@ -70,7 +76,8 @@ dev = { features = [
     "test",
     "lintformat",
     "typing",
-], solve-group = "default" } # ['default', 'test', 'lintformat']
+    "docs",
+], solve-group = "default" }
 py310test = { features = [
     "test",
     "py310",
@@ -99,14 +106,13 @@ select = [
     "I",
     # bandit
     "S",
-    # mypy
+    #mypy
     "ANN",
 ]
-
 ignore = [
     # bandit
-    "S101",   # dont warn on asserts
-    "E203",   # dont complain about whitespace before :
+    "S101",   #dont warn on asserts
+    "E203",   #dont complain about whitespace before
     "ANN401",
 ]
 
@@ -116,7 +122,6 @@ mccabe.max-complexity = 10
 allow-star-arg-any = true
 ignore-fully-untyped = true
 
-
 [tool.mypy]
 warn_return_any = true
 warn_unused_configs = true
@@ -124,3 +129,9 @@ warn_unused_configs = true
 [[tool.mypy.overrides]]
 module = ["requests", "pytest"]
 ignore_missing_imports = true
+
+[tool.setuptools]
+packages = ["wikiapp"]
+
+[tool.scripts]
+wikiapp = "wikiapp.console:main"

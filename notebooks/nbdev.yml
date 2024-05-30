@@ -1,0 +1,9 @@
+project:
+  output-dir: _docspixi
+
+website:
+  title: "wikiapp"
+  site-url: "https://abiswal2003.github.io/wikiapp"
+  description: "Get Random wikipedia pages"
+  repo-branch: main
+  repo-url: "https://github.com/abiswal2003/wikiapp"
